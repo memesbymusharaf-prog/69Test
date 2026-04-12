@@ -167,14 +167,42 @@ def start_cmd(message):
 
    ˚ ⊹ <tg-emoji emoji-id="5893401729541608160">💘</tg-emoji> <b>@ZenoRealWebs</b> <tg-emoji emoji-id="5893333516871012690">🛫</tg-emoji> ⊹ ˚"""
     
+    # BUTTONS WITH PREMIUM EMOJI + PRIMARY COLOR
     keyboard = InlineKeyboardMarkup(row_width=2)
-    btn1 = InlineKeyboardButton("PLANS", callback_data="plans")
-    btn2 = InlineKeyboardButton("BALANCE", callback_data="balance")
-    btn3 = InlineKeyboardButton("SUPPORT", url="https://t.me/ZenoRealWebs?text=Hey%20Zeno%20Bro%20What%27s%20Up")
+    
+    btn1 = InlineKeyboardButton(
+        text="PLANS",
+        callback_data="plans",
+        icon_custom_emoji_id="5902056028513505203"
+    )
+    btn2 = InlineKeyboardButton(
+        text="BALANCE",
+        callback_data="balance",
+        icon_custom_emoji_id="5895444149699612825"
+    )
+    btn3 = InlineKeyboardButton(
+        text="SUPPORT",
+        url="https://t.me/ZenoRealWebs?text=Hey%20Zeno%20Bro%20What%27s%20Up",
+        icon_custom_emoji_id="5384181297302224842"
+    )
+    
     keyboard.add(btn1, btn2)
     keyboard.add(btn3)
     
-    bot.send_message(chat_id, welcome, parse_mode='HTML', reply_markup=keyboard)
+    # Send as JSON with style primary
+    reply_markup = {
+        "inline_keyboard": [
+            [
+                {"text": "PLANS", "callback_data": "plans", "icon_custom_emoji_id": "5902056028513505203", "style": "primary"},
+                {"text": "BALANCE", "callback_data": "balance", "icon_custom_emoji_id": "5895444149699612825", "style": "primary"}
+            ],
+            [
+                {"text": "SUPPORT", "url": "https://t.me/ZenoRealWebs?text=Hey%20Zeno%20Bro%20What%27s%20Up", "icon_custom_emoji_id": "5384181297302224842", "style": "primary"}
+            ]
+        ]
+    }
+    
+    bot.send_message(chat_id, welcome, parse_mode='HTML', reply_markup=json.dumps(reply_markup))
 
 @bot.message_handler(commands=['plans'])
 def plans_cmd(message):
