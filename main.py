@@ -82,4 +82,128 @@ def balance_cmd(m):
         credits_display = str(credits if credits else 100)
     msg = f"""<tg-emoji emoji-id="5893321843149902412">✨</tg-emoji> ⊹ <b>BALANCE</b> <tg-emoji emoji-id="5893321843149902412">✨</tg-emoji> ⊹
 
-   <tg-emoji emoji-id="589347328369675940
+   <tg-emoji emoji-id="5893473283696759404">💵</tg-emoji> <b>Credits:</b> {credits_display}
+
+⊹ <tg-emoji emoji-id="5893401729541608160">💘</tg-emoji> <i>keep grinding</i> <tg-emoji emoji-id="5893494861612455015">💎</tg-emoji> ⊹"""
+    bot.send_message(m.chat.id, msg, parse_mode='HTML')
+
+@bot.message_handler(commands=['daily'])
+def daily_cmd(m):
+    users = database.load_users()
+    today = datetime.now().strftime('%Y-%m-%d')
+    uid = str(m.from_user.id)
+    if uid not in users:
+        users[uid] = {'credits': 100, 'last_daily': None}
+    if users[uid].get('last_daily') == today:
+        bot.reply_to(m, "❌ Already claimed today!")
+        return
+    users[uid]['credits'] = users[uid].get('credits', 100) + 50
+    users[uid]['last_daily'] = today
+    database.save_users(users)
+    bot.reply_to(m, f"🍀 +50 Credits! Total: {users[uid]['credits']}")
+
+@bot.message_handler(commands=['vbv'])
+def vbv_cmd(m):
+    import re
+    bin_data = re.sub(r'/vbv\s*', '', m.text.strip()).strip()
+    if not bin_data or not re.match(r'^\d{6,8}$', bin_data):
+        bot.reply_to(m, "Usage: /vbv 411111")
+        return
+    first = bin_data[0]
+    is_vbv = (first in ['4', '5']) and (sum(int(d) for d in bin_data) % 2 == 0)
+    msg = f"🚀 VBV INFO\nBIN: {bin_data}\n3DS: {'✅ Enabled' if is_vbv else '❌ Disabled'}"
+    bot.reply_to(m, msg)
+
+@bot.message_handler(commands=['sh'])
+def sh_cmd(m):
+    class MockUpdate:
+        effective_user = m.from_user
+        message = m
+        class Message:
+            chat = m.chat
+            text = m.text
+            reply_to_message = m.reply_to_message
+        message = Message()
+    class MockContext:
+        args = m.text.split()[1:] if len(m.text.split()) > 1 else []
+    async def run():
+        await sh.handle_sh_command(MockUpdate(), MockContext())
+    asyncio.run_coroutine_threadsafe(run(), loop)
+    bot.reply_to(m, "Processing...")
+
+@bot.message_handler(commands=['msh'])
+def msh_cmd(m):
+    class MockUpdate:
+        effective_user = m.from_user
+        message = m
+        class Message:
+            chat = m.chat
+            text = m.text
+            document = m.document
+            reply_to_message = m.reply_to_message
+        message = Message()
+    class MockContext:
+        args = m.text.split()[1:] if len(m.text.split()) > 1 else []
+    async def run():
+        await msh.handle_msh_command(MockUpdate(), MockContext())
+    asyncio.run_coroutine_threadsafe(run(), loop)
+    bot.reply_to(m, "Processing file...")
+
+@bot.message_handler(commands=['proxy'])
+def proxy_cmd(m):
+    class MockUpdate:
+        effective_user = m.from_user
+        message = m
+        class Message:
+            chat = m.chat
+            text = m.text
+            reply_to_message = m.reply_to_message
+        message = Message()
+    class MockContext:
+        args = m.text.split()[1:] if len(m.text.split()) > 1 else []
+    async def run():
+        await proxy.handle_proxy_command(MockUpdate(), MockContext())
+    asyncio.run_coroutine_threadsafe(run(), loop)
+    bot.reply_to(m, "Processing proxies...")
+
+@bot.message_handler(commands=['rproxy'])
+def rproxy_cmd(m):
+    class MockUpdate:
+        effective_user = m.from_user
+        message = m
+        class Message:
+            chat = m.chat
+            text = m.text
+        message = Message()
+    class MockContext:
+        args = m.text.split()[1:] if len(m.text.split()) > 1 else []
+    async def run():
+        await proxy.handle_rproxy_command(MockUpdate(), MockContext())
+    asyncio.run_coroutine_threadsafe(run(), loop)
+    bot.reply_to(m, "Removing proxies...")
+
+@bot.message_handler(commands=['myproxy'])
+def myproxy_cmd(m):
+    class MockUpdate:
+        effective_user = m.from_user
+        message = m
+        class Message:
+            chat = m.chat
+            text = m.text
+        message = Message()
+    class MockContext:
+        args = []
+    async def run():
+        await proxy.handle_myproxy_command(MockUpdate(), MockContext())
+    asyncio.run_coroutine_threadsafe(run(), loop)
+    bot.reply_to(m, "Fetching proxies...")
+
+@bot.message_handler(func=lambda m: True)
+def unknown(m):
+    pass
+
+if __name__ == '__main__':
+    from datetime import datetime
+    print(f"Bot @{BOT_USERNAME} started!")
+    bot.remove_webhook()
+    bot.infinity_polling()
