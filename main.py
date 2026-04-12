@@ -472,5 +472,17 @@ def unknown(message):
 # ========== MAIN ==========
 if __name__ == '__main__':
     print(f"Bot @{BOT_USERNAME} started!")
-    bot.remove_webhook()
-    bot.infinity_polling()
+    try:
+        # Remove webhook
+        bot.remove_webhook()
+        print("Webhook removed")
+    except:
+        pass
+    
+    try:
+        # Start polling
+        bot.infinity_polling(timeout=10, long_polling_timeout=5)
+    except Exception as e:
+        print(f"Error: {e}")
+        time.sleep(5)
+        bot.polling(none_stop=True)
