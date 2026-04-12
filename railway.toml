@@ -1,0 +1,16 @@
+[build]
+  builder = "NIXPACKS"
+
+[build.environment]
+  PYTHON_VERSION = "3.11"
+
+[deploy]
+  healthcheck-path = "/"
+  restart-policy-type = "on-failure"
+  restart-policy-max-retries = 10
+
+[deploy.build]
+  command = "pip install -r requirements.txt"
+
+[deploy.start]
+  command = "python main.py"
