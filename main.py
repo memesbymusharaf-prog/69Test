@@ -5,14 +5,15 @@ import requests
 import threading
 import re
 from datetime import datetime
-from flask import Flask, request
 import telebot
 from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton
 
-from config import BOT_TOKEN, ADMIN_CHAT_ID, BOT_USERNAME
+# ========== CONFIG ==========
+BOT_TOKEN = os.environ.get("BOT_TOKEN", "8560918964:AAEYqIQrteTNqBTlliDvCp_pDjN1pcCynZg")
+ADMIN_CHAT_ID = int(os.environ.get("ADMIN_CHAT_ID", "7167704900"))
+BOT_USERNAME = os.environ.get("BOT_USERNAME", "Suspecious_Checker_Bot")
 
 bot = telebot.TeleBot(BOT_TOKEN)
-app = Flask(__name__)
 
 USER_FILE = "users.json"
 PROXY_FILE = "proxies.json"
@@ -167,11 +168,11 @@ def start_cmd(message):
    ˚ ⊹ <tg-emoji emoji-id="5893401729541608160">💘</tg-emoji> <b>@ZenoRealWebs</b> <tg-emoji emoji-id="5893333516871012690">🛫</tg-emoji> ⊹ ˚"""
     
     keyboard = InlineKeyboardMarkup(row_width=2)
-    keyboard.add(
-        InlineKeyboardButton("PLANS", callback_data="plans"),
-        InlineKeyboardButton("BALANCE", callback_data="balance")
-    )
-    keyboard.add(InlineKeyboardButton("SUPPORT", url="https://t.me/ZenoRealWebs?text=Hey%20Zeno%20Bro%20What%27s%20Up"))
+    btn1 = InlineKeyboardButton("PLANS", callback_data="plans")
+    btn2 = InlineKeyboardButton("BALANCE", callback_data="balance")
+    btn3 = InlineKeyboardButton("SUPPORT", url="https://t.me/ZenoRealWebs?text=Hey%20Zeno%20Bro%20What%27s%20Up")
+    keyboard.add(btn1, btn2)
+    keyboard.add(btn3)
     
     bot.send_message(chat_id, welcome, parse_mode='HTML', reply_markup=keyboard)
 
@@ -249,7 +250,10 @@ def daily_cmd(message):
         users[user_id]['credits'] += 50
         users[user_id]['last_daily'] = today
         save_users(users)
-        msg = f"<tg-emoji emoji-id=\"5893402730268987918\">🍀</tg-emoji> <b>Daily Credits Claimed!</b> <tg-emoji emoji-id=\"5893402730268987918\">🍀</tg-emoji>\n\n✅ <b>+50 Credits Added!</b>\n💰 <b>Total Credits:</b> {users[user_id]['credits']}"
+        msg = f"""<tg-emoji emoji-id="5893402730268987918">🍀</tg-emoji> <b>Daily Credits Claimed!</b> <tg-emoji emoji-id="5893402730268987918">🍀</tg-emoji>
+
+✅ <b>+50 Credits Added!</b>
+💰 <b>Total Credits:</b> {users[user_id]['credits']}"""
     
     bot.send_message(chat_id, msg, parse_mode='HTML')
 
@@ -264,7 +268,7 @@ def vbv_cmd(message):
         bot.send_message(chat_id, msg, parse_mode='HTML')
         return
     
-    loading = bot.send_message(chat_id, "🔄 <b>Fetching VBV info...</b>", parse_mode='HTML')
+    loading = bot.send_message(chat_id, "<tg-emoji emoji-id=\"5386625507355804546\">🔄</tg-emoji> <b>Fetching VBV info...</b>", parse_mode='HTML')
     
     first_digit = bin_data[0]
     digit_sum = sum(int(d) for d in bin_data)
@@ -322,7 +326,11 @@ def proxy_count(message):
     live = sum(1 for p in proxies if p['status'] == 'live')
     dead = sum(1 for p in proxies if p['status'] != 'live')
     
-    msg = f"<tg-emoji emoji-id=\"5895444149699612825\">📊</tg-emoji> <b>PROXY COUNT</b> <tg-emoji emoji-id=\"5895444149699612825\">📊</tg-emoji>\n\n✅ <b>Live:</b> {live}\n❌ <b>Dead:</b> {dead}\n📦 <b>Total:</b> {len(proxies)}"
+    msg = f"""<tg-emoji emoji-id="5895444149699612825">📊</tg-emoji> <b>PROXY COUNT</b> <tg-emoji emoji-id="5895444149699612825">📊</tg-emoji>
+
+✅ <b>Live:</b> {live}
+❌ <b>Dead:</b> {dead}
+📦 <b>Total:</b> {len(proxies)}"""
     bot.send_message(chat_id, msg, parse_mode='HTML')
 
 @bot.message_handler(commands=['proxy clear'])
@@ -363,9 +371,13 @@ def proxy_add(message):
         total = len(proxies)
         parts = proxy_data.split(':')
         ip_port = f"{parts[0]}:{parts[1]}"
-        msg = f"<tg-emoji emoji-id=\"5895514131896733546\">✅</tg-emoji> <b>Added {total} working proxy</b>\n<tg-emoji emoji-id=\"5893255507380014983\">📦</tg-emoji> <b>Total:</b> {total}\n\n<tg-emoji emoji-id=\"5904238507555033712\">🟠</tg-emoji> <code>{ip_port}</code>"
+        msg = f"""<tg-emoji emoji-id="5895514131896733546">✅</tg-emoji> <b>Added {total} working proxy</b>
+<tg-emoji emoji-id="5893255507380014983">📦</tg-emoji> <b>Total:</b> {total}
+
+<tg-emoji emoji-id="5904238507555033712">🟠</tg-emoji> <code>{ip_port}</code>"""
     else:
-        msg = f"<tg-emoji emoji-id=\"5893163582194978381\">❌</tg-emoji> <b>PROXY IS DEAD</b> <tg-emoji emoji-id=\"5893163582194978381\">❌</tg-emoji>\n<tg-emoji emoji-id=\"5775896410780079073\">🕓</tg-emoji> <b>TIME TAKEN :</b> {result['time_ms']}ms"
+        msg = f"""<tg-emoji emoji-id="5893163582194978381">❌</tg-emoji> <b>PROXY IS DEAD</b> <tg-emoji emoji-id="5893163582194978381">❌</tg-emoji>
+<tg-emoji emoji-id="5775896410780079073">🕓</tg-emoji> <b>TIME TAKEN :</b> {result['time_ms']}ms"""
     
     bot.edit_message_text(msg, chat_id, testing.message_id, parse_mode='HTML')
 
@@ -418,27 +430,19 @@ def proxy_test(message):
     
     save_proxies(updated)
     
-    msg = f"<tg-emoji emoji-id=\"5893382531037794941\">🔍</tg-emoji> <b>PROXY TEST COMPLETE</b> <tg-emoji emoji-id=\"5893382531037794941\">🔍</tg-emoji>\n\n✅ <b>Live:</b> {live}\n❌ <b>Dead (Removed):</b> {dead}\n📦 <b>Total Active:</b> {len(updated)}"
+    msg = f"""<tg-emoji emoji-id="5893382531037794941">🔍</tg-emoji> <b>PROXY TEST COMPLETE</b> <tg-emoji emoji-id="5893382531037794941">🔍</tg-emoji>
+
+✅ <b>Live:</b> {live}
+❌ <b>Dead (Removed):</b> {dead}
+📦 <b>Total Active:</b> {len(updated)}"""
     bot.edit_message_text(msg, chat_id, testing.message_id, parse_mode='HTML')
 
 @bot.message_handler(func=lambda m: True)
 def unknown(message):
     pass
 
-# ========== FLASK WEBHOOK ==========
-@app.route(f'/{BOT_TOKEN}', methods=['POST'])
-def webhook():
-    if request.headers.get('content-type') == 'application/json':
-        json_str = request.get_data().decode('UTF-8')
-        update = telebot.types.Update.de_json(json_str)
-        bot.process_new_updates([update])
-        return '', 200
-    return '', 403
-
-@app.route('/', methods=['GET'])
-def index():
-    return 'Bot is running!'
-
+# ========== MAIN ==========
 if __name__ == '__main__':
     print(f"Bot @{BOT_USERNAME} started!")
-    app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 8080)))
+    bot.remove_webhook()
+    bot.infinity_polling()
