@@ -196,18 +196,18 @@ def start_cmd(message):
 
    <tg-emoji emoji-id="5893321843149902412">✨</tg-emoji> 𝗁𝖾𝗒 {first_name} !! · 𝗐𝖾𝗅𝖼𝗈𝗆𝖾 𝖻𝖺𝖼𝗄 <tg-emoji emoji-id="5895213106228891182">❤️</tg-emoji>
 
-   ꒰ <tg-emoji emoji-id="6039641775377748623">🛒</tg-emoji> ꒱ 𝖢𝗁𝖾𝖼𝗄𝖾𝗋𝗌
-      ˚ /sh — 𝗌𝗂𝗇𝗀𝗅𝖾  ˚ /msh — 𝗆𝖺𝗌𝗌
-      ˚ /ct — 𝖼𝗎𝗌𝗍𝗈𝗆 𝗀𝖺𝗍𝖾
+   ꒰ <tg-emoji emoji-id="6039641775377748623">🛒</tg-emoji> ꒱ 𝗖𝗵𝗲𝗰𝗸𝗲𝗿
+      ˚ /sh — <i>𝗌𝗂𝗇𝗀𝗅𝖾</i>  ˚ /msh — <i>𝗆𝖺𝗌𝗌</i>
+      ˚ /ct — <i>𝖼𝗎𝗌𝗍𝗈𝗆 𝗀𝖺𝗍𝖾</i>
 
-   ꒰ <tg-emoji emoji-id="5893382531037794941">🔍</tg-emoji> ꒱ 𝖫𝗈𝗈𝗄𝗎𝗉𝗌
-      ˚ /vbv — 𝟥𝖣𝖲  ˚ /mvbv — 𝗆𝖺𝗌𝗌
-      ˚ /bin — 𝖻𝗂𝗇 𝗂𝗇𝖿𝗈
+   ꒰ <tg-emoji emoji-id="5893382531037794941">🔍</tg-emoji> ꒱ 𝗟𝗼𝗼𝗸𝘂𝗽𝘀
+      ˚ /vbv — <i>𝟥𝖣𝖲</i>  ˚ /mvbv — <i>𝗆𝖺𝗌𝗌</i>
+      ˚ /bin — <i>𝖻𝗂𝗇 𝗂𝗇𝖿𝗈</i>
 
-   ꒰ <tg-emoji emoji-id="5902432207519093015">⚙️</tg-emoji> ꒱ 𝖠𝖼𝖼𝗈𝗎𝗇𝗍
-      ˚ /redeem — 𝗉𝗋𝖾𝗆𝗂𝗎𝗆
-      ˚ /balance — 𝗌𝗍𝖺𝗍𝗌  ˚ /daily — 𝖿𝗋𝖾𝖾
-      ˚ /plans — 𝗉𝗋𝗂𝖼𝗂𝗇𝗀  ˚ /proxy — 𝗉𝗋𝗈𝗑𝗂𝖾𝗌
+   ꒰ <tg-emoji emoji-id="5902432207519093015">⚙️</tg-emoji> ꒱ 𝗔𝗰𝗰𝗼𝘂𝗻𝘁
+      ˚ /redeem — <i>𝗉𝗋𝖾𝗆𝗂𝗎𝗆</i>
+      ˚ /balance — <i>𝗌𝗍𝖺𝗍𝗌</i>  ˚ /daily — <i>𝖿𝗋𝖾𝖾</i>
+      ˚ /plans — <i>𝗉𝗋𝗂𝖼𝗂𝗇𝗀</i>  ˚ /proxy — <i>𝗉𝗋𝗈𝗑𝗂𝖾𝗌</i>
 
    ˚ ⊹ <tg-emoji emoji-id="5893401729541608160">💘</tg-emoji> - @ZenoRealWebs - <tg-emoji emoji-id="5893333516871012690">🛫</tg-emoji> ⊹ ˚"""
     
