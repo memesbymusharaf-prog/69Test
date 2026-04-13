@@ -413,6 +413,36 @@ def proxy_cmd(message):
 @bot.message_handler(func=lambda m: True)
 def unknown(message):
     pass
+#============ PROXY LIST ========
+
+@bot.message_handler(commands=['proxy list'])
+def proxy_list(message):
+    chat_id = message.chat.id
+    proxies = load_proxies()
+    total = len(proxies)
+    
+    if not proxies:
+        msg = "<tg-emoji emoji-id=\"5893494861612455015\">⭐️</tg-emoji> <b>NO PROXIES TO LIST</b> <tg-emoji emoji-id=\"5893494861612455015\">⭐️</tg-emoji>"
+        bot.send_message(chat_id, msg, parse_mode='HTML')
+        return
+    
+    # Format proxy list
+    proxy_text = ""
+    for i, p in enumerate(proxies, 1):
+        # Extract just IP:port from proxy string
+        proxy_display = p['proxy'].split('://')[-1] if '://' in p['proxy'] else p['proxy']
+        # Remove user:pass@ if present
+        if '@' in proxy_display:
+            proxy_display = proxy_display.split('@')[-1]
+        proxy_text += f"      ˚ <tg-emoji emoji-id=\"5902449142575141204\">🔌</tg-emoji> {i}. {proxy_display}\n"
+    
+    msg = f"""˚ ⊹ <tg-emoji emoji-id="5902242339899838759">🌎</tg-emoji> <b>𝗣𝗿𝗼𝘅𝘆 𝗟𝗶𝘀𝘁</b> <tg-emoji emoji-id="5893321843149902412">✨</tg-emoji> ⊹ ˚
+
+      ˚ <tg-emoji emoji-id="5893255507380014983">📦</tg-emoji> <b>{total} proxies</b>
+
+{proxy_text}"""
+    
+    bot.send_message(chat_id, msg, parse_mode='HTML')
 
 # ========== FLASK WEBHOOK ==========
 @app.route(f'/{BOT_TOKEN}', methods=['POST'])
