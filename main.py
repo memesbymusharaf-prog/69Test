@@ -112,7 +112,7 @@ def handle_callback(call):
         plans_msg = f"""˚ ⊹ <tg-emoji emoji-id="5893321843149902412">✨</tg-emoji> 𝗭𝗲𝗻𝗼 — 𝗣𝗹𝗮𝗻𝘀 <tg-emoji emoji-id="5893376775781617954">👑</tg-emoji> ⊹ ˚
 
    ꒰ <tg-emoji emoji-id="5893402730268987918">🍀</tg-emoji> ꒱ 𝗙𝗿𝗲𝗲
-      ˚ <tg-emoji emoji-id="5893255507380014983">📦</tg-emoji> 𝟱𝟬 𝘤𝘢𝘳𝘥𝘴  ˚ <tg-emoji emoji-id="5893450623449305489">⚡</tg-emoji> 𝟯𝘄
+      ˚ <tg-emoji emoji-id="5893255507380014983">📦</tg-emoji> 𝟱𝟬 𝘤𝘢𝘳𝘥𝘴  ˚ <tg-emoji emoji-id="5893450623449305489">⚡</tg-emoji> 𝟯𝘸
       ˚ <tg-emoji emoji-id="5893102202817352158">⏳</tg-emoji> 𝟭𝟬𝘀 𝘤𝘰𝘰𝘭𝘥𝘰𝘸𝘯
 
    ꒰ <tg-emoji emoji-id="5893450623449305489">⚡</tg-emoji> ꒱ 𝗕𝗮𝘀𝗶𝗰 · $𝟱/𝘄𝗲𝗲𝗸
@@ -267,31 +267,27 @@ def bin_cmd(message):
 def plans_cmd(message):
     chat_id = message.chat.id
     
-    plans_msg = """<tg-emoji emoji-id="5893321843149902412">✨</tg-emoji> ⊹ <b>Suspecious — Plans</b> <tg-emoji emoji-id="5893376775781617954">👑</tg-emoji> ⊹
+    plans_msg = f"""˚ ⊹ <tg-emoji emoji-id="5893321843149902412">✨</tg-emoji> 𝗭𝗲𝗻𝗼 — 𝗣𝗹𝗮𝗻𝘀 <tg-emoji emoji-id="5893376775781617954">👑</tg-emoji> ⊹ ˚
 
-   ꒰ <tg-emoji emoji-id="5893402730268987918">🍀</tg-emoji> ꒱ <b>Free</b>
-      ˚ <tg-emoji emoji-id="5893255507380014983">📦</tg-emoji> 50 cards/session
-      ˚ <tg-emoji emoji-id="5893102202817352158">⏳</tg-emoji> Slow speed
-      ˚ <tg-emoji emoji-id="5893473283696759404">💰</tg-emoji> 100 credits
+   ꒰ <tg-emoji emoji-id="5893402730268987918">🍀</tg-emoji> ꒱ 𝗙𝗿𝗲𝗲
+      ˚ <tg-emoji emoji-id="5893255507380014983">📦</tg-emoji> 𝟱𝟬 𝘤𝘢𝘳𝘥𝘴  ˚ <tg-emoji emoji-id="5893450623449305489">⚡</tg-emoji> 𝟯𝘸
+      ˚ <tg-emoji emoji-id="5893102202817352158">⏳</tg-emoji> 𝟭𝟬𝘀 𝘤𝘰𝘰𝘭𝘥𝘰𝘸𝘯
 
-   ꒰ <tg-emoji emoji-id="5384546515551275588">⚡</tg-emoji> ꒱ <b>Basic — $5/week</b>
-      ˚ <tg-emoji emoji-id="5893255507380014983">📦</tg-emoji> 500 cards/session
-      ˚ <tg-emoji emoji-id="5902432207519093015">⚙️</tg-emoji> Slow + Medium speed
-      ˚ <tg-emoji emoji-id="5893473283696759404">💵</tg-emoji> 5,000 credits
+   ꒰ <tg-emoji emoji-id="5893450623449305489">⚡</tg-emoji> ꒱ 𝗕𝗮𝘀𝗶𝗰 · $𝟱/𝘄𝗲𝗲𝗸
+      ˚ <tg-emoji emoji-id="5893255507380014983">📦</tg-emoji> 𝟱𝟬𝟬 𝘤𝘢𝘳𝘥𝘴  ˚ <tg-emoji emoji-id="5893450623449305489">⚡</tg-emoji> 𝟴𝘸
+      ˚ <tg-emoji emoji-id="5893102202817352158">⏳</tg-emoji> 𝟱𝘀 𝘤𝘰𝘰𝘭𝘥𝘰𝘸𝘯
 
-   ꒰ <tg-emoji emoji-id="5893185207355315979">🔥</tg-emoji> ꒱ <b>Pro — $15/month</b>
-      ˚ <tg-emoji emoji-id="5893255507380014983">📦</tg-emoji> 2,000 cards/session
-      ˚ <tg-emoji emoji-id="6041705726206808304">🚀</tg-emoji> Slow + Medium + Fast
-      ˚ <tg-emoji emoji-id="5893494861612455015">💎</tg-emoji> Unlimited credits
-      ˚ <tg-emoji emoji-id="5902016123972358349">⚙️</tg-emoji> Priority support
+   ꒰ <tg-emoji emoji-id="5893185207355315979">🔥</tg-emoji> ꒱ 𝗣𝗿𝗼 · $𝟭𝟱/𝗺𝗼
+      ˚ <tg-emoji emoji-id="5893255507380014983">📦</tg-emoji> 𝟮,𝟬𝟬𝟬 𝘤𝘢𝘳𝘥𝘴  ˚ <tg-emoji emoji-id="5893450623449305489">⚡</tg-emoji> 𝟭𝟱𝘸
+      ˚ <tg-emoji emoji-id="5893494861612455015">💎</tg-emoji> 𝘶𝘯𝘭𝘪𝘮𝘪𝘵𝘦𝘥  ˚ <tg-emoji emoji-id="5893102202817352158">⏳</tg-emoji> 𝟮𝘀
+      ˚ <tg-emoji emoji-id="5893494861612455015">⭐</tg-emoji> 𝘱𝘳𝘪𝘰𝘳𝘪𝘵𝘺 𝘴𝘶𝘱𝘱𝘰𝘳𝘵
 
-   ꒰ <tg-emoji emoji-id="5893376775781617954">👑</tg-emoji> ꒱ <b>Elite — $30/month</b>
-      ˚ <tg-emoji emoji-id="5893255507380014983">📦</tg-emoji> 5,000 cards/session
-      ˚ <tg-emoji emoji-id="5893048571560726748">🎯</tg-emoji> All speeds + Turbo
-      ˚ <tg-emoji emoji-id="5893494861612455015">💎</tg-emoji> Unlimited credits
-      ˚ <tg-emoji emoji-id="5902016123972358349">🛡</tg-emoji> Priority support
+   ꒰ <tg-emoji emoji-id="5893376775781617954">👑</tg-emoji> ꒱ 𝗘𝗹𝗶𝘁𝗲 · $𝟯𝟬/𝗺𝗼
+      ˚ <tg-emoji emoji-id="5893255507380014983">📦</tg-emoji> 𝟱,𝟬𝟬𝟬 𝘤𝘢𝘳𝘥𝘴  ˚ <tg-emoji emoji-id="5893450623449305489">⚡</tg-emoji> 𝟯𝟬𝘸
+      ˚ <tg-emoji emoji-id="5893494861612455015">💎</tg-emoji> 𝘶𝘯𝘭𝘪𝘮𝘪𝘵𝘦𝘥  ˚ <tg-emoji emoji-id="5893102202817352158">⏳</tg-emoji> 𝟬𝘀
+      ˚ <tg-emoji emoji-id="5902016123972358349">🛡</tg-emoji> 𝘱𝘳𝘪𝘰𝘳𝘪𝘵𝘺 𝘴𝘶𝘱𝘱𝘰𝘳𝘵
 
-⊹ <tg-emoji emoji-id="5893401729541608160">💘</tg-emoji> <b>@ZenoRealWebs To Buy</b> <tg-emoji emoji-id="5893333516871012690">🛫</tg-emoji> ⊹"""
+   ˚ ⊹ <tg-emoji emoji-id="5893401729541608160">💘</tg-emoji> BUY : @ZenoRealWebs <tg-emoji emoji-id="5893333516871012690">🛫</tg-emoji> ⊹ ˚"""
     
     bot.send_message(chat_id, plans_msg, parse_mode='HTML')
 
@@ -314,7 +310,7 @@ def balance_cmd(message):
     user_data = users[str(user_id)]
     hit_rate = round((user_data['total_hits'] / user_data['total_checks']) * 100, 1) if user_data['total_checks'] > 0 else 0
     
-    balance_msg = f"""˚ ⊹ <tg-emoji emoji-id="6039641775377748623">🛍</tg-emoji> <b>Sus — Balance</b> <tg-emoji emoji-id="5893321843149902412">✨</tg-emoji> ⊹ ˚
+    balance_msg = f"""˚ ⊹ <tg-emoji emoji-id="6039641775377748623">🛍</tg-emoji> <b>Zeno — Balance</b> <tg-emoji emoji-id="5893321843149902412">✨</tg-emoji> ⊹ ˚
 
    ꒰ <tg-emoji emoji-id="5895514131896733546">🆓</tg-emoji> ꒱ <b>Plan</b> · {user_data['plan']}
 
