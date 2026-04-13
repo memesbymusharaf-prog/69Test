@@ -192,22 +192,22 @@ def start_cmd(message):
     users[str(user_id)]['last_msg_id'] = None
     save_users(users)
     
-    welcome = f"""˚ ⊹ <tg-emoji emoji-id="5893185207355315979">🔥</tg-emoji> 𝗭𝗘𝗡𝗢 𝗢𝗥 𝗪𝗛𝗔𝗧 !! <tg-emoji emoji-id="5893450623449305489">⚡</tg-emoji> ⊹ ˚
+    welcome = f"""˚ ⊹ <tg-emoji emoji-id="5893185207355315979">🔥</tg-emoji> 𝗭𝗘𝗡𝗢 𝗢𝗥 𝗪𝗛𝗔𝗧 𝗦𝗶𝗥? !! <tg-emoji emoji-id="5893450623449305489">⚡</tg-emoji> ⊹ ˚
 
-   <tg-emoji emoji-id="5893321843149902412">✨</tg-emoji> 𝘩𝘦𝘺 {first_name} !! · 𝘸𝘦𝘭𝘤𝘰𝘮𝘦 𝘣𝘢𝘤𝘬 <tg-emoji emoji-id="5895213106228891182">❤️</tg-emoji>
+   <tg-emoji emoji-id="5893321843149902412">✨</tg-emoji> 𝗁𝖾𝗒 {first_name} !! · 𝗐𝖾𝗅𝖼𝗈𝗆𝖾 𝖻𝖺𝖼𝗄 <tg-emoji emoji-id="5895213106228891182">❤️</tg-emoji>
 
-   ꒰ <tg-emoji emoji-id="6039641775377748623">🛒</tg-emoji> ꒱ 𝗖𝗵𝗲𝗰𝗸𝗲𝗿𝘀
-      ˚ /sh — 𝘴𝘪𝘯𝘨𝘭𝘦  ˚ /msh — 𝘮𝘢𝘴𝘴
-      ˚ /ct — 𝘤𝘶𝘴𝘵𝘰𝘮 𝘨𝘢𝘵𝘦
+   ꒰ <tg-emoji emoji-id="6039641775377748623">🛒</tg-emoji> ꒱ 𝖢𝗁𝖾𝖼𝗄𝖾𝗋𝗌
+      ˚ /𝗌𝗁 — 𝗌𝗂𝗇𝗀𝗅𝖾  ˚ /𝗆𝗌𝗁 — 𝗆𝖺𝗌𝗌
+      ˚ /𝖼𝗍 — 𝖼𝗎𝗌𝗍𝗈𝗆 𝗀𝖺𝗍𝖾
 
-   ꒰ <tg-emoji emoji-id="5893382531037794941">🔍</tg-emoji> ꒱ 𝗟𝗼𝗼𝗸𝘂𝗽𝘀
-      ˚ /vbv — 3𝗗𝗦  ˚ /mvbv — 𝘮𝘢𝘴𝘴
-      ˚ /bin — 𝘣𝘪𝘯 𝘪𝘯𝘧𝘰
+   ꒰ <tg-emoji emoji-id="5893382531037794941">🔍</tg-emoji> ꒱ 𝖫𝗈𝗈𝗄𝗎𝗉𝗌
+      ˚ /𝗏𝖻𝗏 — 𝟥𝖣𝖲  ˚ /𝗆𝗏𝖻𝗏 — 𝗆𝖺𝗌𝗌
+      ˚ /𝖻𝗂𝗇 — 𝖻𝗂𝗇 𝗂𝗇𝖿𝗈
 
-   ꒰ <tg-emoji emoji-id="5902432207519093015">⚙️</tg-emoji> ꒱ 𝗔𝗰𝗰𝗼𝘂𝗻𝘁
-      ˚ /redeem — 𝘱𝘳𝘦𝘮𝘪𝘶𝘮
-      ˚ /balance — 𝘴𝘵𝘢𝘵𝘴  ˚ /daily — 𝘧𝘳𝘦𝘦
-      ˚ /plans — 𝘱𝘳𝘪𝘤𝘪𝘯𝘨  ˚ /proxy — 𝘱𝘳𝘰𝘹𝘪𝘦𝘴
+   ꒰ <tg-emoji emoji-id="5902432207519093015">⚙️</tg-emoji> ꒱ 𝖠𝖼𝖼𝗈𝗎𝗇𝗍
+      ˚ /𝗋𝖾𝖽𝖾𝖾𝗆 — 𝗉𝗋𝖾𝗆𝗂𝗎𝗆
+      ˚ /𝖻𝖺𝗅𝖺𝗇𝖼𝖾 — 𝗌𝗍𝖺𝗍𝗌  ˚ /𝖽𝖺𝗂𝗅𝗒 — 𝖿𝗋𝖾𝖾
+      ˚ /𝗉𝗅𝖺𝗇𝗌 — 𝗉𝗋𝗂𝖼𝗂𝗇𝗀  ˚ /𝗉𝗋𝗈𝗑𝗒 — 𝗉𝗋𝗈𝗑𝗂𝖾𝗌
 
    ˚ ⊹ <tg-emoji emoji-id="5893401729541608160">💘</tg-emoji> - @ZenoRealWebs - <tg-emoji emoji-id="5893333516871012690">🛫</tg-emoji> ⊹ ˚"""
     
