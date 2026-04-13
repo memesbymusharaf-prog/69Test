@@ -79,7 +79,7 @@ def handle_callback(call):
     user_data = users[str(user_id)]
     
     if data == 'plans':
-        plans_msg = """<tg-emoji emoji-id="5893321843149902412">✨</tg-emoji> ⊹ <b>Suspecious — Plans</b> <tg-emoji emoji-id="5893376775781617954">👑</tg-emoji> ⊹
+        plans_msg = """<tg-emoji emoji-id="5893321843149902412">✨</tg-emoji> ˚ ⊹ <b>Suspecious — Plans</b> <tg-emoji emoji-id="5893376775781617954">👑</tg-emoji> ⊹ ˚
 
    ꒰ <tg-emoji emoji-id="5893402730268987918">🍀</tg-emoji> ꒱ <b>Free</b>
       ˚ <tg-emoji emoji-id="5893255507380014983">📦</tg-emoji> 50 cards/session
@@ -103,7 +103,7 @@ def handle_callback(call):
       ˚ <tg-emoji emoji-id="5893494861612455015">💎</tg-emoji> Unlimited credits
       ˚ <tg-emoji emoji-id="5902016123972358349">🛡</tg-emoji> Priority support
 
-⊹ <tg-emoji emoji-id="5893401729541608160">💘</tg-emoji> <b>@ZenoRealWebs To Buy</b> <tg-emoji emoji-id="5893333516871012690">🛫</tg-emoji> ⊹"""
+˚ ⊹ <tg-emoji emoji-id="5893401729541608160">💘</tg-emoji> <b>@ZenoRealWebs To Buy</b> <tg-emoji emoji-id="5893333516871012690">🛫</tg-emoji> ⊹ ˚"""
         
         if user_data.get('last_msg_id'):
             bot.edit_message_text(plans_msg, chat_id, user_data['last_msg_id'], parse_mode='HTML')
