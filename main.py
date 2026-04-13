@@ -235,25 +235,38 @@ def bin_cmd(message):
     
     loading = bot.send_message(chat_id, "<tg-emoji emoji-id=\"5386625507355804546\">🔄</tg-emoji> <b>Fetching BIN info...</b>", parse_mode='HTML')
     
-    # Run async function
-    loop = asyncio.new_event_loop()
-    asyncio.set_event_loop(loop)
-    result = loop.run_until_complete(get_bin_info(bin_data))
-    loop.close()
-    
-    if result.get("error"):
-        msg = f"❌ <b>BIN Info Error</b>\n\n<code>{result['error']}</code>"
-    else:
-        msg = f"""<tg-emoji emoji-id="5902056028513505203">💳</tg-emoji> <b>BIN INFO</b> <tg-emoji emoji-id="5902056028513505203">💳</tg-emoji>
+    try:
+        url = f"https://bins.antipublic.cc/bins/{bin_data}"
+        response = requests.get(url, timeout=10)
+        
+        if response.status_code == 200:
+            data = response.json()
+            
+            bin_num = data.get('bin', bin_data)
+            scheme = data.get('brand', 'N/A')
+            card_type = data.get('type', 'N/A')
+            brand = data.get('level', 'N/A')
+            bank = data.get('bank', 'N/A')
+            country = data.get('country_name', 'Unknown')
+            flag = data.get('country_flag', '')
+            
+            msg = f"""<tg-emoji emoji-id="5902056028513505203">💳</tg-emoji> <b>ZENO BiN iNFO</b> <tg-emoji emoji-id="5902056028513505203">💳</tg-emoji>
 
-<b>BIN:</b> <code>{result.get('bin', bin_data)}</code>
-<b>Scheme:</b> {result.get('scheme', 'N/A')}
-<b>Type:</b> {result.get('type', 'N/A')}
-<b>Brand:</b> {result.get('brand', 'N/A')}
-<b>Bank:</b> {result.get('bank', 'N/A')}
-<b>Country:</b> {result.get('country', 'Unknown')} {result.get('country_emoji', '')}
+<b>BIN:</b> <code>{bin_num}</code>
+<b>Scheme:</b> {scheme}
+<b>Type:</b> {card_type}
+<b>Brand:</b> {brand}
+<b>Bank:</b> {bank}
+<b>Country:</b> {country} {flag}
 
-<tg-emoji emoji-id="5893401729541608160">💘</tg-emoji> <b>@ZenoRealWebs</b>"""
+<tg-emoji emoji-id="5893401729541608160">💘</tg-emoji> <b>@ZenoRealWebs</b> <tg-emoji emoji-id="5893333516871012690">🛫</tg-emoji>"""
+            
+        elif response.status_code == 404:
+            msg = f"❌ <b>BIN not found:</b> <code>{bin_data}</code>"
+        else:
+            msg = f"❌ <b>API Error:</b> Status {response.status_code}"
+    except Exception as e:
+        msg = f"❌ <b>Error:</b> {str(e)}"
     
     bot.edit_message_text(msg, chat_id, loading.message_id, parse_mode='HTML')
 
