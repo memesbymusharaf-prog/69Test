@@ -252,7 +252,7 @@ def bin_cmd(message):
             
             # Check if prepaid
             is_prepaid = "PREPAID" in str(data).upper()
-            prepaid_text = "𝘯𝘰𝘵 𝘱𝘳𝘦𝘱𝘢𝘪𝘥" if not is_prepaid else "𝘱𝘳𝘦𝘱𝘢𝘪𝘥"
+            prepaid_text = "𝗻𝗼𝘁 𝗽𝗿𝗲𝗽𝗮𝗶𝗱" if not is_prepaid else "𝗽𝗿𝗲𝗽𝗮𝗶𝗱"
             
             msg = f"""˚ ⊹ <tg-emoji emoji-id="5902056028513505203">💳</tg-emoji> <b>𝗕𝗜𝗡 𝗟𝗼𝗼𝗸𝘂𝗽</b> <tg-emoji emoji-id="5893382531037794941">🔍</tg-emoji> ⊹ ˚
 
@@ -265,7 +265,7 @@ def bin_cmd(message):
       ˚ <tg-emoji emoji-id="5893255507380014983">💼</tg-emoji> <b>{bank}</b>
       ˚ <tg-emoji emoji-id="5902242339899838759">🌎</tg-emoji> <b>{country}</b> {flag}
 
-   ˚ <i>𝘵𝘩𝘦𝘳𝘦 𝘶 𝘨𝘰 𝘱𝘰𝘰𝘬𝘪𝘦~</i> <tg-emoji emoji-id="5893401729541608160">💘</tg-emoji>"""
+   ˚ <i>𝘁𝗵𝗲𝗿𝗲 𝘂 𝗴𝗼 𝗽𝗼𝗼𝗸𝗶𝗲~</i> <tg-emoji emoji-id="5893401729541608160">💘</tg-emoji>"""
             
         elif response.status_code == 404:
             msg = f"❌ <b>BIN not found:</b> <code>{bin_data}</code>"
