@@ -250,7 +250,7 @@ def bin_cmd(message):
             country = data.get('country_name', 'Unknown')
             flag = data.get('country_flag', '')
             
-            msg = f"""<tg-emoji emoji-id="5902056028513505203">💳</tg-emoji> <b>ZENO BiN iNFO</b> <tg-emoji emoji-id="5902056028513505203">💳</tg-emoji>
+            msg = f"""<tg-emoji emoji-id="5902056028513505203">💳</tg-emoji> <b>BiN iNFORMATiON</b> <tg-emoji emoji-id="5902056028513505203">💳</tg-emoji>
 
 <b>BIN:</b> <code>{bin_num}</code>
 <b>Scheme:</b> {scheme}
@@ -259,7 +259,7 @@ def bin_cmd(message):
 <b>Bank:</b> {bank}
 <b>Country:</b> {country} {flag}
 
-<tg-emoji emoji-id="5893401729541608160">💘</tg-emoji> <b>@ZenoRealWebs</b> <tg-emoji emoji-id="5893333516871012690">🛫</tg-emoji>"""
+<tg-emoji emoji-id="5893401729541608160">💘</tg-emoji> <b>WHO : @ZenoRealWebs</b> <tg-emoji emoji-id="5893333516871012690">🛫</tg-emoji>"""
             
         elif response.status_code == 404:
             msg = f"❌ <b>BIN not found:</b> <code>{bin_data}</code>"
