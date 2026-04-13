@@ -461,4 +461,4 @@ def index():
 if __name__ == '__main__':
     print(f"Bot @{BOT_USERNAME} started!")
     bot.remove_webhook()
-    app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 8080)))
+    bot.infinity_polling()
