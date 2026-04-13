@@ -79,7 +79,7 @@ def handle_callback(call):
     user_data = users[str(user_id)]
     
     if data == 'plans':
-        plans_msg = """<tg-emoji emoji-id="5893321843149902412">✨</tg-emoji> ˚ ⊹ <b>Suspecious — Plans</b> <tg-emoji emoji-id="5893376775781617954">👑</tg-emoji> ⊹ ˚
+        plans_msg = """˚ ⊹ <tg-emoji emoji-id="5893321843149902412">✨</tg-emoji> <b>Suspecious — Plans</b> <tg-emoji emoji-id="5893376775781617954">👑</tg-emoji> ⊹ ˚
 
    ꒰ <tg-emoji emoji-id="5893402730268987918">🍀</tg-emoji> ꒱ <b>Free</b>
       ˚ <tg-emoji emoji-id="5893255507380014983">📦</tg-emoji> 50 cards/session
@@ -161,7 +161,7 @@ def start_cmd(message):
     users[str(user_id)]['last_msg_id'] = None
     save_users(users)
     
-    welcome = """<tg-emoji emoji-id="5386626765781221291">🌟</tg-emoji> <b>SUSPECIOUS</b> <tg-emoji emoji-id="5386626765781221291">🌟</tg-emoji>
+    welcome = """˚ ⊹ <tg-emoji emoji-id="5386626765781221291">🌟</tg-emoji> <b>SUSPECIOUS</b> <tg-emoji emoji-id="5386626765781221291">🌟</tg-emoji> ˚ ⊹
 
 <tg-emoji emoji-id="5384146031325758830">✨</tg-emoji> <b>Hey """ + first_name + """! Welcome Back It's Suspecious Checker</b> <tg-emoji emoji-id="5384273819487717218">❤️</tg-emoji>
 
