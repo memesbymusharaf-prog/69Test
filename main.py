@@ -170,6 +170,7 @@ def handle_callback(call):
     bot.answer_callback_query(callback_id)
 
 # ========== MESSAGE HANDLERS ==========
+
 @bot.message_handler(commands=['start'])
 def start_cmd(message):
     chat_id = message.chat.id
@@ -195,23 +196,23 @@ def start_cmd(message):
 
    <tg-emoji emoji-id="5893321843149902412">✨</tg-emoji> <i>𝘩𝘦𝘺 {first_name} !! · 𝘸𝘦𝘭𝘤𝘰𝘮𝘦 𝘣𝘢𝘤𝘬</i> <tg-emoji emoji-id="5895213106228891182">❤️</tg-emoji>
 
-   ꒰ <tg-emoji emoji-id="6039641775377748623">🛒</tg-emoji> ꒱ <b>𝗖𝗵𝗲𝗰𝗸𝗲𝗿𝘀</b>
+   ꒰ <tg-emoji emoji-id="6039641775377748623">🛒</tg-emoji> ꒱ <b>𝘊𝘩𝘦𝘤𝘬𝘦𝘳𝘴</b>
       ˚ <b>/sh</b> — <i>𝘴𝘪𝘯𝘨𝘭𝘦</i>  ˚ <b>/msh</b> — <i>𝘮𝘢𝘴𝘴</i>
       ˚ <b>/ct</b> — <i>𝘤𝘶𝘴𝘵𝘰𝘮 𝘨𝘢𝘵𝘦</i>
 
-   ꒰ <tg-emoji emoji-id="5893382531037794941">🔍</tg-emoji> ꒱ <b>𝗟𝗼𝗼𝗸𝘂𝗽𝘀</b>
-      ˚ <b>/vbv</b> — <i>𝟯𝗗𝗦</i>  ˚ <b>/mvbv</b> — <i>𝘮𝘢𝘴𝘴</i>
+   ꒰ <tg-emoji emoji-id="5893382531037794941">🔍</tg-emoji> ꒱ <b>𝘓𝘰𝘰𝘬𝘶𝘱𝘴</b>
+      ˚ <b>/vbv</b> — <i>3𝘋𝘚</i>  ˚ <b>/mvbv</b> — <i>𝘮𝘢𝘴𝘴</i>
       ˚ <b>/bin</b> — <i>𝘣𝘪𝘯 𝘪𝘯𝘧𝘰</i>
 
-   ꒰ <tg-emoji emoji-id="5902432207519093015">⚙️</tg-emoji> ꒱ <b>𝗔𝗰𝗰𝗼𝘂𝗻𝘁</b>
+   ꒰ <tg-emoji emoji-id="5902432207519093015">⚙️</tg-emoji> ꒱ <b>𝘈𝘤𝘤𝘰𝘶𝘯𝘵</b>
       ˚ <b>/redeem</b> — <i>𝘱𝘳𝘦𝘮𝘪𝘶𝘮</i>
       ˚ <b>/balance</b> — <i>𝘴𝘵𝘢𝘵𝘴</i>  ˚ <b>/daily</b> — <i>𝘧𝘳𝘦𝘦</i>
       ˚ <b>/plans</b> — <i>𝘱𝘳𝘪𝘤𝘪𝘯𝘨</i>  ˚ <b>/proxy</b> — <i>𝘱𝘳𝘰𝘹𝘪𝘦𝘴</i>
 
-   ˚ ⊹ <tg-emoji emoji-id="5893401729541608160">💘</tg-emoji> <b>- @ZenoRealWebs -</b> <tg-emoji emoji-id="5893333516871012690">🛫</tg-emoji> ⊹ ˚"""    
-    #TakeDownByZeno
+   ˚ ⊹ <tg-emoji emoji-id="5893401729541608160">💘</tg-emoji> <b>- @ZenoRealWebs -</b> <tg-emoji emoji-id="5893333516871012690">🛫</tg-emoji> ⊹ ˚"""
     
-    bot.send_message(chat_id, welcome, parse_mode='HTML', reply_markup=json.dumps(keyboard))
+    # No inline keyboard - removed
+    bot.send_message(chat_id, welcome, parse_mode='HTML')
 
 @bot.message_handler(commands=['bin'])
 def bin_cmd(message):
