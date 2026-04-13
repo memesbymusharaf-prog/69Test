@@ -161,7 +161,7 @@ def start_cmd(message):
     users[str(user_id)]['last_msg_id'] = None
     save_users(users)
     
-    welcome = """˚ ⊹ <tg-emoji emoji-id="5386626765781221291">🌟</tg-emoji> <b>SUSPECIOUS</b> <tg-emoji emoji-id="5386626765781221291">🌟</tg-emoji> ˚ ⊹
+    welcome = """˚ ⊹ <tg-emoji emoji-id="5386626765781221291">🌟</tg-emoji> <b>SUSPECIOUS</b> <tg-emoji emoji-id="5386626765781221291">🌟</tg-emoji> ⊹ ˚
 
 <tg-emoji emoji-id="5384146031325758830">✨</tg-emoji> <b>Hey """ + first_name + """! Welcome Back It's Suspecious Checker</b> <tg-emoji emoji-id="5384273819487717218">❤️</tg-emoji>
 
