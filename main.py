@@ -191,22 +191,24 @@ def start_cmd(message):
     users[str(user_id)]['last_msg_id'] = None
     save_users(users)
     
-    welcome = f"""˚ ⊹ <tg-emoji emoji-id="5386626765781221291">🌟</tg-emoji> <b>SUSPECIOUS</b> <tg-emoji emoji-id="5386626765781221291">🌟</tg-emoji> ⊹ ˚
+    welcome = f"""˚ ⊹ <tg-emoji emoji-id="5893185207355315979">🔥</tg-emoji> <b>𝗭𝗘𝗡𝗢 𝗢𝗥 𝗪𝗛𝗔𝗧 !!</b> <tg-emoji emoji-id="5893450623449305489">⚡</tg-emoji> ⊹ ˚
 
-<tg-emoji emoji-id="5384146031325758830">✨</tg-emoji> <b>Hey {first_name}! Welcome Back It's Suspecious Checker</b> <tg-emoji emoji-id="5384273819487717218">❤️</tg-emoji>
+   <tg-emoji emoji-id="5893321843149902412">✨</tg-emoji> <i>𝘩𝘦𝘺 {first_name} !! · 𝘸𝘦𝘭𝘤𝘰𝘮𝘦 𝘣𝘢𝘤𝘬</i> <tg-emoji emoji-id="5895213106228891182">❤️</tg-emoji>
 
-   ꒰ <tg-emoji emoji-id="5902432207519093015">🛒</tg-emoji> ꒱  <b>/sh</b> — Shopify Single
-   ꒰ <tg-emoji emoji-id="6039641775377748623">🛍</tg-emoji> ꒱  <b>/msh</b> — Shopify Mass
-   ꒰ <tg-emoji emoji-id="5902056028513505203">💳</tg-emoji> ꒱  <b>/bin</b> <code>X</code> — BiN iNFO
-   ꒰ <tg-emoji emoji-id="6041705726206808304">🚀</tg-emoji> ꒱  <b>/vbv</b> <code>X</code> — VBV iNFO
+   ꒰ <tg-emoji emoji-id="6039641775377748623">🛒</tg-emoji> ꒱ <b>𝗖𝗵𝗲𝗰𝗸𝗲𝗿𝘀</b>
+      ˚ <b>/sh</b> — <i>𝘴𝘪𝘯𝘨𝘭𝘦</i>  ˚ <b>/msh</b> — <i>𝘮𝘢𝘴𝘴</i>
+      ˚ <b>/ct</b> — <i>𝘤𝘶𝘴𝘵𝘰𝘮 𝘨𝘢𝘵𝘦</i>
 
-   ꒰ <tg-emoji emoji-id="5902449142575141204">🔑</tg-emoji> ꒱  <b>/redeem</b> <code>X</code> — Premium
-   ꒰ <tg-emoji emoji-id="5902242339899838759">🌎</tg-emoji> ꒱  <b>/proxy</b> — Proxies
-   ꒰ <tg-emoji emoji-id="5893376775781617954">👑</tg-emoji> ꒱  <b>/plans</b> — Pricing
-   ꒰ <tg-emoji emoji-id="5893473283696759404">💵</tg-emoji> ꒱  <b>/balance</b> — Plan & Hits
-   ꒰ <tg-emoji emoji-id="5893402730268987918">🍀</tg-emoji> ꒱  <b>/daily</b> — Free Credits
+   ꒰ <tg-emoji emoji-id="5893382531037794941">🔍</tg-emoji> ꒱ <b>𝗟𝗼𝗼𝗸𝘂𝗽𝘀</b>
+      ˚ <b>/vbv</b> — <i>𝟯𝗗𝗦</i>  ˚ <b>/mvbv</b> — <i>𝘮𝘢𝘴𝘴</i>
+      ˚ <b>/bin</b> — <i>𝘣𝘪𝘯 𝘪𝘯𝘧𝘰</i>
 
-   ˚ ⊹ <tg-emoji emoji-id="5893401729541608160">💘</tg-emoji> <b>@ZenoRealWebs</b> <tg-emoji emoji-id="5893333516871012690">🛫</tg-emoji> ⊹ ˚"""
+   ꒰ <tg-emoji emoji-id="5902432207519093015">⚙️</tg-emoji> ꒱ <b>𝗔𝗰𝗰𝗼𝘂𝗻𝘁</b>
+      ˚ <b>/redeem</b> — <i>𝘱𝘳𝘦𝘮𝘪𝘶𝘮</i>
+      ˚ <b>/balance</b> — <i>𝘴𝘵𝘢𝘵𝘴</i>  ˚ <b>/daily</b> — <i>𝘧𝘳𝘦𝘦</i>
+      ˚ <b>/plans</b> — <i>𝘱𝘳𝘪𝘤𝘪𝘯𝘨</i>  ˚ <b>/proxy</b> — <i>𝘱𝘳𝘰𝘹𝘪𝘦𝘴</i>
+
+   ˚ ⊹ <tg-emoji emoji-id="5893401729541608160">💘</tg-emoji> <b>- @ZenoRealWebs -</b> <tg-emoji emoji-id="5893333516871012690">🛫</tg-emoji> ⊹ ˚"""    
     
     keyboard = {
         "inline_keyboard": [
