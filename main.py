@@ -250,16 +250,22 @@ def bin_cmd(message):
             country = data.get('country_name', 'Unknown')
             flag = data.get('country_flag', '')
             
-            msg = f"""<tg-emoji emoji-id="5902056028513505203">💳</tg-emoji> <b>BiN iNFORMATiON</b> <tg-emoji emoji-id="5902056028513505203">💳</tg-emoji>
+            # Check if prepaid
+            is_prepaid = "PREPAID" in str(data).upper()
+            prepaid_text = "𝘯𝘰𝘵 𝘱𝘳𝘦𝘱𝘢𝘪𝘥" if not is_prepaid else "𝘱𝘳𝘦𝘱𝘢𝘪𝘥"
+            
+            msg = f"""˚ ⊹ <tg-emoji emoji-id="5902056028513505203">💳</tg-emoji> <b>𝗕𝗜𝗡 𝗟𝗼𝗼𝗸𝘂𝗽</b> <tg-emoji emoji-id="5893382531037794941">🔍</tg-emoji> ⊹ ˚
 
-<b>BIN:</b> <code>{bin_num}</code>
-<b>Scheme:</b> {scheme}
-<b>Type:</b> {card_type}
-<b>Brand:</b> {brand}
-<b>Bank:</b> {bank}
-<b>Country:</b> {country} {flag}
+   ꒰ <tg-emoji emoji-id="5893494861612455015">💎</tg-emoji> ꒱ <b>𝗰𝗮𝗿𝗱 𝗱𝗲𝘁𝗮𝗶𝗹𝘀</b>
+      ˚ <tg-emoji emoji-id="5895440460322706085">🏷</tg-emoji> <b>𝗕𝗜𝗡:</b> <code>{bin_num}</code>
+      ˚ <tg-emoji emoji-id="5902016123972358349">🛡</tg-emoji> <b>{scheme}</b>  ˚ <tg-emoji emoji-id="5895440460322706085">🧾</tg-emoji> <b>{card_type}</b>
+      ˚ <tg-emoji emoji-id="5893376775781617954">👑</tg-emoji> <b>{brand}</b>  ˚ <tg-emoji emoji-id="5893473283696759404">🪙</tg-emoji> <i>{prepaid_text}</i>
 
-<tg-emoji emoji-id="5893401729541608160">💘</tg-emoji> <b>WHO : @ZenoRealWebs</b> <tg-emoji emoji-id="5893333516871012690">🛫</tg-emoji>"""
+   ꒰ <tg-emoji emoji-id="5893255507380014983">🏦</tg-emoji> ꒱ <b>𝗶𝘀𝘀𝘂𝗲𝗿</b>
+      ˚ <tg-emoji emoji-id="5893255507380014983">💼</tg-emoji> <b>{bank}</b>
+      ˚ <tg-emoji emoji-id="5902242339899838759">🌎</tg-emoji> <b>{country}</b> {flag}
+
+   ˚ <i>𝘵𝘩𝘦𝘳𝘦 𝘶 𝘨𝘰 𝘱𝘰𝘰𝘬𝘪𝘦~</i> <tg-emoji emoji-id="5893401729541608160">💘</tg-emoji>"""
             
         elif response.status_code == 404:
             msg = f"❌ <b>BIN not found:</b> <code>{bin_data}</code>"
