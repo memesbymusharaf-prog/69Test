@@ -474,16 +474,19 @@ def proxy_cmd(message):
         
         proxy_msg = f"""˚ ⊹ <tg-emoji emoji-id="5902242339899838759">🌎</tg-emoji> <b>𝗣𝗿𝗼𝘅𝘆 𝗠𝗲𝗻𝘂</b> <tg-emoji emoji-id="5893321843149902412">✨</tg-emoji> ⊹ ˚
 
-      ꒰ <tg-emoji emoji-id="5895440460322706085">📋</tg-emoji> ꒱ <b>/proxy add ip:port:user:pass</b>  ˚ 𝘢𝘥𝘥 𝘱𝘳𝘰𝘹𝘺
-      ꒰ <tg-emoji emoji-id="5893382531037794941">🔍</tg-emoji> ꒱ <b>/proxy list</b>  ˚ 𝘴𝘩𝘰𝘸 𝘺𝘰𝘶𝘳 𝘱𝘳𝘰𝘹𝘪𝘦𝘴
-      ꒰ <tg-emoji emoji-id="5893081007153746175">❌</tg-emoji> ꒱ <b>/proxy remove &lt;count&gt;</b>  ˚ 𝘳𝘦𝘮𝘰𝘷𝘦 𝘱𝘳𝘰𝘹𝘪𝘦𝘴
-      ꒰ <tg-emoji emoji-id="5895444149699612825">📊</tg-emoji> ꒱ <b>/proxy count</b>  ˚ 𝘴𝘩𝘰𝘸 𝘤𝘰𝘶𝘯𝘵
-      ꒰ <tg-emoji emoji-id="6041705726206808304">🚀</tg-emoji> ꒱ <b>/proxy test</b>  ˚ 𝘵𝘦𝘴𝘵 𝘢𝘭𝘭
+      ꒰ <tg-emoji emoji-id="5895440460322706085">📋</tg-emoji> ꒱ <b>/proxy list</b>  ˚ 𝘴𝘩𝘰𝘸 𝘢𝘭𝘭
+      ꒰ <tg-emoji emoji-id="5895514131896733546">✅</tg-emoji> ꒱ <b>/proxy add</b>  ˚ 𝘢𝘥𝘥 𝘯𝘦𝘸
+      ꒰ <tg-emoji emoji-id="5893081007153746175">❌</tg-emoji> ꒱ <b>/proxy remove</b>  ˚ 𝘳𝘦𝘮𝘰𝘷𝘦
+      ꒰ <tg-emoji emoji-id="5904692292324692386">⚠️</tg-emoji> ꒱ <b>/proxy clear</b>  ˚ 𝘤𝘭𝘦𝘢𝘳 𝘢𝘭𝘭
+      ꒰ <tg-emoji emoji-id="5895444149699612825">📊</tg-emoji> ꒱ <b>/proxy count</b>  ˚ 𝘤𝘰𝘶𝘯𝘵
+      ꒰ <tg-emoji emoji-id="5893382531037794941">🔍</tg-emoji> ꒱ <b>/proxy test</b>  ˚ 𝘵𝘦𝘴𝘵 𝘢𝘭𝘭
 
-      ˚ <tg-emoji emoji-id="5902449142575141204">🔌</tg-emoji> <b>{total}/99 proxies</b>"""
+      ˚ <tg-emoji emoji-id="5902449142575141204">🔌</tg-emoji> <b>{total}</b> 𝘱𝘳𝘰𝘹𝘪𝘦𝘴"""
         
         bot.send_message(chat_id, proxy_msg, parse_mode='HTML')
         return
+    
+    # Rest of the proxy commands (add, list, remove, etc.) remains same...
     
     subcommand = args[0].lower()
     
