@@ -4,6 +4,8 @@ import time
 import re
 import requests
 import threading
+import asyncio
+import aiohttp
 from datetime import datetime
 from flask import Flask, request
 import telebot
@@ -52,8 +54,36 @@ def test_proxy(proxy_string):
     except:
         return {'live': False, 'time_ms': 0}
 
-# ========== PREMIUM EMOJI IDs (Direct as in PHP) ==========
-# Same as PHP, no change
+# ========== BIN INFO FUNCTION ==========
+async def get_bin_info(bin_number: str) -> dict:
+    BINLIST_URL = "https://bins.antipublic.cc/bins/{}"
+    
+    if not bin_number.isdigit() or len(bin_number) < 6:
+        return {"error": "Invalid BIN. Must be at least 6 digits."}
+    
+    async with aiohttp.ClientSession() as session:
+        try:
+            async with session.get(BINLIST_URL.format(bin_number)) as resp:
+                if resp.status == 429:
+                    return {"error": "Rate limit exceeded. Try again later."}
+                if resp.status == 404:
+                    return {"error": "BIN not found."}
+                if resp.status != 200:
+                    return {"error": f"API request failed (status {resp.status})"}
+                
+                data = await resp.json()
+                
+                return {
+                    "bin": data.get("bin"),
+                    "scheme": data.get("brand", "N/A"),
+                    "type": data.get("type", "N/A"),
+                    "brand": data.get("level", "N/A"),
+                    "bank": data.get("bank", "N/A"),
+                    "country": data.get("country_name", "Unknown"),
+                    "country_emoji": data.get("country_flag", ""),
+                }
+        except Exception as e:
+            return {"error": f"Exception: {str(e)}"}
 
 # ========== CALLBACK HANDLER ==========
 @bot.callback_query_handler(func=lambda call: True)
@@ -161,9 +191,9 @@ def start_cmd(message):
     users[str(user_id)]['last_msg_id'] = None
     save_users(users)
     
-    welcome = """˚ ⊹ <tg-emoji emoji-id="5386626765781221291">🌟</tg-emoji> <b>SUSPECIOUS</b> <tg-emoji emoji-id="5386626765781221291">🌟</tg-emoji> ⊹ ˚
+    welcome = f"""˚ ⊹ <tg-emoji emoji-id="5386626765781221291">🌟</tg-emoji> <b>SUSPECIOUS</b> <tg-emoji emoji-id="5386626765781221291">🌟</tg-emoji> ⊹ ˚
 
-<tg-emoji emoji-id="5384146031325758830">✨</tg-emoji> <b>Hey """ + first_name + """! Welcome Back It's Suspecious Checker</b> <tg-emoji emoji-id="5384273819487717218">❤️</tg-emoji>
+<tg-emoji emoji-id="5384146031325758830">✨</tg-emoji> <b>Hey {first_name}! Welcome Back It's Suspecious Checker</b> <tg-emoji emoji-id="5384273819487717218">❤️</tg-emoji>
 
    ꒰ <tg-emoji emoji-id="5902432207519093015">🛒</tg-emoji> ꒱  <b>/sh</b> — Shopify Single
    ꒰ <tg-emoji emoji-id="6039641775377748623">🛍</tg-emoji> ꒱  <b>/msh</b> — Shopify Mass
@@ -191,6 +221,41 @@ def start_cmd(message):
     }
     
     bot.send_message(chat_id, welcome, parse_mode='HTML', reply_markup=json.dumps(keyboard))
+
+@bot.message_handler(commands=['bin'])
+def bin_cmd(message):
+    chat_id = message.chat.id
+    text = message.text.strip()
+    bin_data = re.sub(r'/bin\s*', '', text).strip()
+    
+    if not bin_data or not re.match(r'^\d{6,8}$', bin_data):
+        msg = "❌ <b>Please enter valid BIN</b>\n\nExample: <code>/bin 411111</code>"
+        bot.send_message(chat_id, msg, parse_mode='HTML')
+        return
+    
+    loading = bot.send_message(chat_id, "<tg-emoji emoji-id=\"5386625507355804546\">🔄</tg-emoji> <b>Fetching BIN info...</b>", parse_mode='HTML')
+    
+    # Run async function
+    loop = asyncio.new_event_loop()
+    asyncio.set_event_loop(loop)
+    result = loop.run_until_complete(get_bin_info(bin_data))
+    loop.close()
+    
+    if result.get("error"):
+        msg = f"❌ <b>BIN Info Error</b>\n\n<code>{result['error']}</code>"
+    else:
+        msg = f"""<tg-emoji emoji-id="5902056028513505203">💳</tg-emoji> <b>BIN INFO</b> <tg-emoji emoji-id="5902056028513505203">💳</tg-emoji>
+
+<b>BIN:</b> <code>{result.get('bin', bin_data)}</code>
+<b>Scheme:</b> {result.get('scheme', 'N/A')}
+<b>Type:</b> {result.get('type', 'N/A')}
+<b>Brand:</b> {result.get('brand', 'N/A')}
+<b>Bank:</b> {result.get('bank', 'N/A')}
+<b>Country:</b> {result.get('country', 'Unknown')} {result.get('country_emoji', '')}
+
+<tg-emoji emoji-id="5893401729541608160">💘</tg-emoji> <b>@ZenoRealWebs</b>"""
+    
+    bot.edit_message_text(msg, chat_id, loading.message_id, parse_mode='HTML')
 
 @bot.message_handler(commands=['plans'])
 def plans_cmd(message):
