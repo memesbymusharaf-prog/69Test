@@ -397,22 +397,21 @@ def vbv_cmd(message):
 @bot.message_handler(commands=['proxy'])
 def proxy_cmd(message):
     chat_id = message.chat.id
-    text = message.text.strip()
     proxies = load_proxies()
     total = len(proxies)
     
-    if text == '/proxy':
-        proxy_msg = f"""˚ ⊹ <tg-emoji emoji-id="5902242339899838759">🌎</tg-emoji> <b>PROXY MENU</b> <tg-emoji emoji-id="5893321843149902412">✨</tg-emoji> ⊹ ˚
+    proxy_msg = f"""˚ ⊹ <tg-emoji emoji-id="5902242339899838759">🌎</tg-emoji> <b>𝗣𝗿𝗼𝘅𝘆 𝗠𝗲𝗻𝘂</b> <tg-emoji emoji-id="5893321843149902412">✨</tg-emoji> ⊹ ˚
 
-      ꒰ <tg-emoji emoji-id="5895440460322706085">📋</tg-emoji> ꒱  <b>/proxy list</b> · show all proxies
-      ꒰ <tg-emoji emoji-id="5895514131896733546">✅</tg-emoji> ꒱  <b>/proxy add</b> · add new proxies
-      ꒰ <tg-emoji emoji-id="5893081007153746175">❌</tg-emoji> ꒱  <b>/proxy remove</b> · remove proxy
-      ꒰ <tg-emoji emoji-id="5904692292324692386">⚠️</tg-emoji> ꒱  <b>/proxy clear</b> · remove all
-      ꒰ <tg-emoji emoji-id="5895444149699612825">📊</tg-emoji> ꒱  <b>/proxy count</b> · count
-      ꒰ <tg-emoji emoji-id="5893382531037794941">🔍</tg-emoji> ꒱  <b>/proxy test</b> · test all
+      ꒰ <tg-emoji emoji-id="5895440460322706085">📋</tg-emoji> ꒱ <b>/proxy list</b>  ˚ 𝘴𝘩𝘰𝘸 𝘢𝘭𝘭
+      ꒰ <tg-emoji emoji-id="5895514131896733546">✅</tg-emoji> ꒱ <b>/proxy add</b>  ˚ 𝘢𝘥𝘥 𝘯𝘦𝘸
+      ꒰ <tg-emoji emoji-id="5893081007153746175">❌</tg-emoji> ꒱ <b>/proxy remove</b>  ˚ 𝘳𝘦𝘮𝘰𝘷𝘦
+      ꒰ <tg-emoji emoji-id="5904692292324692386">⚠️</tg-emoji> ꒱ <b>/proxy clear</b>  ˚ 𝘤𝘭𝘦𝘢𝘳 𝘢𝘭𝘭
+      ꒰ <tg-emoji emoji-id="5895444149699612825">📊</tg-emoji> ꒱ <b>/proxy count</b>  ˚ 𝘤𝘰𝘶𝘯𝘵
+      ꒰ <tg-emoji emoji-id="5893382531037794941">🔍</tg-emoji> ꒱ <b>/proxy test</b>  ˚ 𝘵𝘦𝘴𝘵 𝘢𝘭𝘭
 
-      <tg-emoji emoji-id="5902449142575141204">🔌</tg-emoji> <b>total proxies:</b> {total}"""
-        bot.send_message(chat_id, proxy_msg, parse_mode='HTML')
+      ˚ <tg-emoji emoji-id="5902449142575141204">🔌</tg-emoji> <b>{total} proxies</b>"""
+    
+    bot.send_message(chat_id, proxy_msg, parse_mode='HTML')
     
     elif text == '/proxy list':
         if not proxies:
