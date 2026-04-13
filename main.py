@@ -6,7 +6,8 @@ import requests
 import threading
 import asyncio
 import aiohttp
-from datetime import datetime
+import random
+from datetime import datetime, timedelta
 from flask import Flask, request
 import telebot
 from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton
@@ -37,30 +38,107 @@ def load_proxies():
         if os.path.exists(PROXY_FILE):
             with open(PROXY_FILE, 'r') as f:
                 return json.load(f)
-        return []
+        return {}
 
 def save_proxies(proxies):
     with file_lock:
         with open(PROXY_FILE, 'w') as f:
             json.dump(proxies, f, indent=4)
 
-def test_proxy(proxy_string):
+# ========== PROXY FUNCTIONS ==========
+TEST_SITE = "https://api.ipify.org?format=json"
+last_command_time = {}
+
+def auto_fix_proxy_format(raw_proxy: str):
+    """
+    Converts ip:port:user:pass to http://user:pass@ip:port
+    """
+    if not raw_proxy:
+        return None
+    p = raw_proxy.strip()
+    
+    # Remove any protocol if present
+    if p.startswith(('http://', 'https://')):
+        p = p.split('://', 1)[1]
+    
+    # Check if format is ip:port:user:pass
+    parts = p.split(':')
+    
+    # Format: ip:port:user:pass (4 parts)
+    if len(parts) == 4:
+        ip = parts[0]
+        port = parts[1]
+        user = parts[2]
+        password = parts[3]
+        return f"http://{user}:{password}@{ip}:{port}"
+    
+    # Format: user:pass@ip:port (already standard)
+    elif '@' in p:
+        return f"http://{p}"
+    
+    # Try to detect other formats
+    elif len(parts) == 2 and parts[1].isdigit():
+        # ip:port only (transparent)
+        return f"http://{p}"
+    
+    return None
+
+def add_user_proxy(user_id, proxy):
+    proxies = load_proxies()
+    user_id = str(user_id)
+    if user_id not in proxies:
+        proxies[user_id] = []
+    
+    # Check if already exists (compare normalized)
+    normalized_new = auto_fix_proxy_format(proxy)
+    for existing in proxies[user_id]:
+        if auto_fix_proxy_format(existing) == normalized_new:
+            return False, "Proxy already exists"
+    
+    proxies[user_id].append(normalized_new)
+    save_proxies(proxies)
+    return True, "Proxy added successfully"
+
+def remove_user_proxies(user_id, count=-1):
+    proxies = load_proxies()
+    user_id = str(user_id)
+    if user_id not in proxies or not proxies[user_id]:
+        return False, "No proxies found"
+    if count == -1:
+        removed = len(proxies[user_id])
+        proxies[user_id] = []
+        save_proxies(proxies)
+        return True, f"Removed {removed} proxies"
+    removed = min(count, len(proxies[user_id]))
+    proxies[user_id] = proxies[user_id][removed:]
+    save_proxies(proxies)
+    return True, f"Removed {removed} proxies"
+
+def get_user_proxies(user_id):
+    proxies = load_proxies()
+    return proxies.get(str(user_id), [])
+
+async def test_proxy(proxy):
+    normalized = auto_fix_proxy_format(proxy)
+    if not normalized:
+        return False, "Invalid proxy format"
     try:
-        proxies = {'http': proxy_string, 'https': proxy_string}
-        start = time.time()
-        r = requests.get('http://httpbin.org/ip', proxies=proxies, timeout=10)
-        elapsed = round((time.time() - start) * 1000)
-        return {'live': r.status_code == 200, 'time_ms': elapsed}
-    except:
-        return {'live': False, 'time_ms': 0}
+        timeout = aiohttp.ClientTimeout(total=15)
+        async with aiohttp.ClientSession(timeout=timeout) as session:
+            async with session.get(TEST_SITE, proxy=normalized) as response:
+                response.raise_for_status()
+                data = await response.json()
+                if 'ip' in data:
+                    return True, f"Working (IP: {data['ip']})"
+                return False, "Invalid response"
+    except Exception as e:
+        return False, f"Dead: {str(e)[:50]}"
 
 # ========== BIN INFO FUNCTION ==========
 async def get_bin_info(bin_number: str) -> dict:
     BINLIST_URL = "https://bins.antipublic.cc/bins/{}"
-    
     if not bin_number.isdigit() or len(bin_number) < 6:
         return {"error": "Invalid BIN. Must be at least 6 digits."}
-    
     async with aiohttp.ClientSession() as session:
         try:
             async with session.get(BINLIST_URL.format(bin_number)) as resp:
@@ -70,9 +148,7 @@ async def get_bin_info(bin_number: str) -> dict:
                     return {"error": "BIN not found."}
                 if resp.status != 200:
                     return {"error": f"API request failed (status {resp.status})"}
-                
                 data = await resp.json()
-                
                 return {
                     "bin": data.get("bin"),
                     "scheme": data.get("brand", "N/A"),
@@ -237,7 +313,6 @@ def bin_cmd(message):
             country = data.get('country_name', 'Unknown')
             flag = data.get('country_flag', '')
             
-            # Check if prepaid
             is_prepaid = "PREPAID" in str(data).upper()
             prepaid_text = "𝗻𝗼𝘁 𝗽𝗿𝗲𝗽𝗮𝗶𝗱" if not is_prepaid else "𝗽𝗿𝗲𝗽𝗮𝗶𝗱"
             
@@ -383,29 +458,159 @@ def vbv_cmd(message):
     
     bot.edit_message_text(msg, chat_id, loading.message_id, parse_mode='HTML')
 
+# ========== PROXY COMMANDS ==========
+
 @bot.message_handler(commands=['proxy'])
 def proxy_cmd(message):
     chat_id = message.chat.id
-    proxies = load_proxies()
-    total = len(proxies)
+    user_id = message.from_user.id
     
-    proxy_msg = f"""˚ ⊹ <tg-emoji emoji-id="5902242339899838759">🌎</tg-emoji> <b>𝗣𝗿𝗼𝘅𝘆 𝗠𝗲𝗻𝘂</b> <tg-emoji emoji-id="5893321843149902412">✨</tg-emoji> ⊹ ˚
-
-      ꒰ <tg-emoji emoji-id="5895440460322706085">📋</tg-emoji> ꒱ <b>/proxy list</b>  ˚ 𝘴𝘩𝘰𝘸 𝘢𝘭𝘭
-      ꒰ <tg-emoji emoji-id="5895514131896733546">✅</tg-emoji> ꒱ <b>/proxy add</b>  ˚ 𝘢𝘥𝘥 𝘯𝘦𝘸
-      ꒰ <tg-emoji emoji-id="5893081007153746175">❌</tg-emoji> ꒱ <b>/proxy remove</b>  ˚ 𝘳𝘦𝘮𝘰𝘷𝘦
-      ꒰ <tg-emoji emoji-id="5904692292324692386">⚠️</tg-emoji> ꒱ <b>/proxy clear</b>  ˚ 𝘤𝘭𝘦𝘢𝘳 𝘢𝘭𝘭
-      ꒰ <tg-emoji emoji-id="5895444149699612825">📊</tg-emoji> ꒱ <b>/proxy count</b>  ˚ 𝘤𝘰𝘶𝘯𝘵
-      ꒰ <tg-emoji emoji-id="5893382531037794941">🔍</tg-emoji> ꒱ <b>/proxy test</b>  ˚ 𝘵𝘦𝘴𝘵 𝘢𝘭𝘭
-
-      ˚ <tg-emoji emoji-id="5902449142575141204">🔌</tg-emoji> <b>{total} proxies</b>"""
+    args = message.text.split()[1:] if len(message.text.split()) > 1 else []
     
-    bot.send_message(chat_id, proxy_msg, parse_mode='HTML')
+    if not args:
+        # Show proxy menu
+        proxies = get_user_proxies(user_id)
+        total = len(proxies)
+        
+        proxy_msg = f"""˚ ⊹ <tg-emoji emoji-id="5902242339899838759">🌎</tg-emoji> <b>𝗣𝗿𝗼𝘅𝘆 𝗠𝗲𝗻𝘂</b> <tg-emoji emoji-id="5893321843149902412">✨</tg-emoji> ⊹ ˚
+
+      ꒰ <tg-emoji emoji-id="5895440460322706085">📋</tg-emoji> ꒱ <b>/proxy add ip:port:user:pass</b>  ˚ 𝘢𝘥𝘥 𝘱𝘳𝘰𝘹𝘺
+      ꒰ <tg-emoji emoji-id="5893382531037794941">🔍</tg-emoji> ꒱ <b>/proxy list</b>  ˚ 𝘴𝘩𝘰𝘸 𝘺𝘰𝘶𝘳 𝘱𝘳𝘰𝘹𝘪𝘦𝘴
+      ꒰ <tg-emoji emoji-id="5893081007153746175">❌</tg-emoji> ꒱ <b>/proxy remove &lt;count&gt;</b>  ˚ 𝘳𝘦𝘮𝘰𝘷𝘦 𝘱𝘳𝘰𝘹𝘪𝘦𝘴
+      ꒰ <tg-emoji emoji-id="5895444149699612825">📊</tg-emoji> ꒱ <b>/proxy count</b>  ˚ 𝘴𝘩𝘰𝘸 𝘤𝘰𝘶𝘯𝘵
+      ꒰ <tg-emoji emoji-id="6041705726206808304">🚀</tg-emoji> ꒱ <b>/proxy test</b>  ˚ 𝘵𝘦𝘴𝘵 𝘢𝘭𝘭
+
+      ˚ <tg-emoji emoji-id="5902449142575141204">🔌</tg-emoji> <b>{total}/99 proxies</b>"""
+        
+        bot.send_message(chat_id, proxy_msg, parse_mode='HTML')
+        return
+    
+    subcommand = args[0].lower()
+    
+    if subcommand == 'add' and len(args) >= 2:
+        proxy_input = ' '.join(args[1:])
+        normalized = auto_fix_proxy_format(proxy_input)
+        
+        if not normalized:
+            bot.send_message(chat_id, "❌ <b>Invalid proxy format!</b>\n\nUse: <code>/proxy add ip:port:user:pass</code>\nExample: <code>/proxy add 192.168.1.1:8080:username:password</code>", parse_mode='HTML')
+            return
+        
+        current = get_user_proxies(user_id)
+        if len(current) >= 99:
+            bot.send_message(chat_id, "❌ <b>Proxy limit reached!</b>\n\nYou can only have up to 99 proxies. Use <code>/proxy remove</code> to remove some.", parse_mode='HTML')
+            return
+        
+        success, msg = add_user_proxy(user_id, normalized)
+        
+        # Test the proxy asynchronously
+        def run_async_test():
+            loop = asyncio.new_event_loop()
+            asyncio.set_event_loop(loop)
+            working, test_msg = loop.run_until_complete(test_proxy(normalized))
+            status = "✅ Working" if working else "❌ Dead"
+            bot.send_message(chat_id, f"{'✅' if working else '❌'} <b>Proxy {status}</b>\n\n{msg}\n\n📡 Test: {test_msg}", parse_mode='HTML')
+        
+        threading.Thread(target=run_async_test).start()
+        return
+    
+    elif subcommand == 'list':
+        proxies = get_user_proxies(user_id)
+        if not proxies:
+            bot.send_message(chat_id, "📭 <b>No proxies found.</b>\n\nUse <code>/proxy add ip:port:user:pass</code> to add some.", parse_mode='HTML')
+            return
+        
+        proxy_list = ""
+        for i, p in enumerate(proxies):
+            # Convert back to ip:port:user:pass format for display
+            display = p
+            if p.startswith('http://'):
+                no_proto = p[7:]
+                if '@' in no_proto:
+                    auth, host = no_proto.split('@')
+                    if ':' in auth:
+                        user, password = auth.split(':', 1)
+                        display = f"{host}:{user}:******"
+                    else:
+                        display = no_proto
+                else:
+                    display = no_proto
+            proxy_list += f"{i+1}. {display}\n"
+        
+        # Split into multiple messages if too long
+        if len(proxy_list) > 4000:
+            for i in range(0, len(proxy_list), 4000):
+                bot.send_message(chat_id, f"📋 <b>Your Proxies ({len(proxies)}/99)</b>\n\n<code>{proxy_list[i:i+4000]}</code>", parse_mode='HTML')
+        else:
+            bot.send_message(chat_id, f"📋 <b>Your Proxies ({len(proxies)}/99)</b>\n\n<code>{proxy_list}</code>", parse_mode='HTML')
+        return
+    
+    elif subcommand == 'remove':
+        count = -1
+        if len(args) >= 2:
+            try:
+                count = int(args[1])
+            except:
+                bot.send_message(chat_id, "❌ Invalid count. Use: <code>/proxy remove 5</code>", parse_mode='HTML')
+                return
+        
+        success, msg = remove_user_proxies(user_id, count)
+        bot.send_message(chat_id, f"{'✅' if success else '❌'} <b>Proxy Removal</b>\n\n{msg}", parse_mode='HTML')
+        return
+    
+    elif subcommand == 'count':
+        proxies = get_user_proxies(user_id)
+        bot.send_message(chat_id, f"📊 <b>Proxy Count</b>\n\nYou have <code>{len(proxies)}/99</code> proxies.", parse_mode='HTML')
+        return
+    
+    elif subcommand == 'test':
+        proxies = get_user_proxies(user_id)
+        if not proxies:
+            bot.send_message(chat_id, "📭 <b>No proxies to test.</b>\n\nUse <code>/proxy add</code> to add some.", parse_mode='HTML')
+            return
+        
+        msg = bot.send_message(chat_id, "🔄 <b>Testing proxies...</b>\n\nThis may take a moment.", parse_mode='HTML')
+        
+        def run_async_test_all():
+            loop = asyncio.new_event_loop()
+            asyncio.set_event_loop(loop)
+            
+            async def test_all():
+                results = []
+                for p in proxies:
+                    working, test_msg = await test_proxy(p)
+                    status = "✅" if working else "❌"
+                    # Convert back to display format
+                    display = p
+                    if p.startswith('http://'):
+                        no_proto = p[7:]
+                        if '@' in no_proto:
+                            auth, host = no_proto.split('@')
+                            if ':' in auth:
+                                user, _ = auth.split(':', 1)
+                                display = f"{host}:{user}:******"
+                            else:
+                                display = no_proto
+                        else:
+                            display = no_proto
+                    results.append(f"{status} {display}")
+                return results
+            
+            results = loop.run_until_complete(test_all())
+            result_text = "🔍 <b>Proxy Test Results</b>\n\n" + "\n".join(results[:50])  # Limit to 50 per message
+            if len(results) > 50:
+                result_text += f"\n\n... and {len(results)-50} more"
+            bot.edit_message_text(result_text, chat_id, msg.message_id, parse_mode='HTML')
+        
+        threading.Thread(target=run_async_test_all).start()
+        return
+    
+    else:
+        bot.send_message(chat_id, "❌ <b>Unknown subcommand!</b>\n\nUse: add, list, remove, count, test", parse_mode='HTML')
 
 @bot.message_handler(func=lambda m: True)
 def unknown(message):
     pass
-    
+
 # ========== FLASK WEBHOOK ==========
 @app.route(f'/{BOT_TOKEN}', methods=['POST'])
 def webhook():
